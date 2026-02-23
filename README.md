@@ -1,57 +1,75 @@
 # ArachnIQ-Agent 🕷️🤖
 
-**ArachnIQ-Agent** is a lean, AI-powered API testing showcase built for the Google Hackathon. It demonstrates how Google Gemini can be used to autonomously explore an API, generate intelligent test cases (including edge cases and negative scenarios), and execute them in a real-time dashboard.
+**ArachnIQ-Agent** is a hackathon-ready showcase of autonomous AI-powered API testing. This project demonstrates how Large Language Models (LLMs) like Google Gemini can be leveraged to intelligently explore an API, generate test cases (including edge cases and security validation), and execute them in real-time.
 
-## 🚀 Key Features
+## 🚀 Demo Highlights
 
-- **AI-Driven Test Generation**: Uses `gemini-1.5-pro` to analyze API schemas and generate high-coverage test suites.
-- **Automated Bug Discovery**: Successfully identifies intentional logic bugs and edge cases in the target API.
-- **Real-time CLI Dashboard**: A beautiful, live-updating terminal interface powered by `Rich`.
-- **Comprehensive Reporting**: Automatically generates detailed Markdown and JSON reports for every test run.
-- **Mock API Included**: Comes with a built-in FastAPI service with pre-defined "bugs" for immediate demonstration.
+- **Self-Contained Environment**: Includes a "vulnerable" Mock API with intentional bugs for the AI to find.
+- **AI Test Generation**: Uses Google Gemini to analyze the API schema and dream up test scenarios.
+- **Live Dashboard**: Features a beautiful CLI dashboard using `Rich` to show tests running in real-time.
+- **Automated Reporting**: Generates JSON and Markdown execution reports.
 
-## 🛠️ Quick Start
+## 📂 Project Structure
 
-### 1. Prerequisites
-- Python 3.9+
-- A Google Gemini API Key ([Get one here](https://aistudio.google.com/app/apikey))
-
-### 2. Installation
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/ArachnIQ-Agent.git
-cd ArachnIQ-Agent
-
-# Install dependencies
-pip install -r requirements.txt
+```
+ArachnIQ-Agent/
+├── api/            # FastAPI application with intentional bugs
+├── tests/          # AI Test Generator (Gemini integration)
+├── runner/         # Test Runner & Report Generator
+├── dashboard/      # CLI Dashboard entry point
+├── reports/        # Output directory for test reports
+└── requirements.txt
 ```
 
-### 3. Configuration
-Copy the `.env.template` to `.env` and add your Gemini API key:
+## 🛠️ Setup & Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/ArachnIQ-Agent.git
+    cd ArachnIQ-Agent
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Configure API Key:**
+    Copy `.env.template` to `.env` and add your Google Gemini API key.
+    ```bash
+    cp .env.template .env
+    # Edit .env and set GEMINI_API_KEY=your_key_here
+    ```
+    > **Note:** If you don't have a key, the system will automatically fall back to "Mock Mode" using pre-defined test cases.
+
+## ▶️ Running the Demo
+
+To start the full demo (API + Test Generation + Dashboard):
+
 ```bash
-cp .env.template .env
-# Edit .env and set GEMINI_API_KEY=your_key_here
+python -m dashboard.cli_dashboard
 ```
 
-### 4. Run the Demo
-```bash
-python -m app.main
-```
+### What to expect:
+1.  The **Mock API** will start in the background.
+2.  The **AI Generator** will analyze the API and create a test suite.
+3.  The **Live Dashboard** will appear, showing each test execution.
+4.  **Bugs Found!** You will see some tests FAIL. This is intentional! The AI has successfully found the bugs hidden in the Mock API.
+5.  **Reports** will be saved to the `reports/` directory.
 
-## 🧠 How it Works
+## 🐛 Intentional Bugs to Look For
 
-1. **Schema Analysis**: The system feeds the API endpoint definitions to Google Gemini.
-2. **Intelligence Phase**: Gemini identifies potential weaknesses (e.g., "What happens if I add a negative quantity to the cart?") and generates a JSON-structured test suite.
-3. **Execution**: The test runner executes the HTTP requests against the local FastAPI mock server.
-4. **Validation**: Responses are validated against the AI's expected results.
-5. **Visualization**: Results are streamed to a live CLI dashboard.
+The Mock API contains several "traps" for the AI to find:
+- **User Registration**: Allows duplicate users (Logic Error).
+- **Product Details**: ID `999` crashes the server (500 Internal Server Error).
+- **Cart**: Allows adding negative quantities (Validation Missing).
+- **Checkout**: "Fails" if more than 5 items are in the cart.
 
-## 📁 Repository Structure
-- `app/mock_api.py`: A FastAPI application with intentional logic bugs.
-- `app/generator.py`: The Gemini-powered test generation engine.
-- `app/runner.py`: Executes tests and generates reports.
-- `app/main.py`: The orchestration layer and CLI dashboard.
-- `reports/`: Directory where test results are saved.
+## 📊 Reports
+
+After execution, check the `reports/` folder for:
+- `report_YYYYMMDD_HHMMSS.md`: A readable summary of the test run.
+- `report_YYYYMMDD_HHMMSS.json`: Raw test data.
 
 ---
-Built with 🕷️ by the ArachnIQ Team for the Google Hackathon.
+*Built for the Google Hackathon.*
