@@ -1,7 +1,8 @@
-fastapi
-uvicorn
-requests
-google-generativeai
-python-dotenv
-rich
-pydantic
+fastapi==0.109.2
+uvicorn==0.27.1
+httpx==0.27.0
+rich==13.7.1
+pydantic==2.6.1
+google-generativeai==0.4.1
+python-dotenv==1.0.1
+requests==2.31.0

@@ -1,19 +1,9 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
+.env
 .venv/
 env/
 venv/
-ENV/
-
-# Environment variables
-.env
-
-# Reports
-reports/*.json
-reports/*.md
-
-# IDEs
-.vscode/
-.idea/
+reports/
+.DS_Store
